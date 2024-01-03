@@ -74,4 +74,33 @@ const createAdmin = async (req, res, next) => {
     .status(201)
     .json({ userId: createdAdmin.id, email: createdAdmin.email, token: token });
 };
+const getAdmins = async (req, res, next) => {
+  let admins;
+  try {
+    admins = await Admin.find({}, "-password");
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not find admins",
+      500
+    );
+    return next(error);
+  }
+  res.json({ admins: admins });
+};
+const getAdminById = async (req, res, next) => {
+  const adminId = req.params.adminId;
+  let admin;
+  try {
+    admin = await Admin.findOne({ id: adminId }, { password: 0 });
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, please try again later",
+      500
+    );
+    return next(error);
+  }
+  res.json({ admin: admin });
+};
 exports.createAdmin = createAdmin;
+exports.getAdmins = getAdmins;
+exports.getAdminById = getAdminById;

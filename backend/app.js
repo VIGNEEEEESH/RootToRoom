@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 
 mongoose
   .connect(
-    `mongodb+srv://root:4444@cluster0.rw3waqy.mongodb.net/RootToRoom?retryWrites=true&w=majority`
+    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.rw3waqy.mongodb.net/RootToRoom${process.env.DB_NAME}?retryWrites=true&w=majority`
   )
   .then(app.listen(4444))
   .catch((err) => {
